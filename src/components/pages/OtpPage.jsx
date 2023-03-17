@@ -34,7 +34,7 @@ const OtpPage = () => {
   },[submit, dispatch])
 
   useEffect(()=>{
-   //result && navigate('/success')
+   result && navigate('/success')
    if(result){
     setborder(false)
    }

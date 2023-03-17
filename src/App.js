@@ -11,7 +11,7 @@ import SuccessPage from './components/pages/SuccessPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/", 
     element: <OtpPage />,
   },
   {
