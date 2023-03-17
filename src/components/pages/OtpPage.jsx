@@ -1,10 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { validateOtp } from '../../loginSlice'
 
 const OtpPage = () => {
-  const [firstNum, setfirstNum] = useState()
-  const [secondNum, setsecondNum] = useState()
-  const [thirdNum, setthirdNum] = useState()
-  const [fourthNum, setfourthNum] = useState()
+  const [firstNum, setfirstNum] = useState('')
+  const [secondNum, setsecondNum] = useState('')
+  const [thirdNum, setthirdNum] = useState('')
+  const [fourthNum, setfourthNum] = useState('')
+  const [submit, setsubmit] = useState(false)
+  const otpDefaultValue = useSelector(store => store.login.otpDefault)
+  const dispatch = useDispatch()
+  console.log(otpDefaultValue && otpDefaultValue)
+  useEffect(()=>{
+    if(firstNum!=='' && secondNum!=='' && thirdNum!=='' && fourthNum!==''){
+     setsubmit(true)
+    }
+    console.log(firstNum)
+  },[firstNum, secondNum, thirdNum, fourthNum, dispatch])
+  useEffect(()=>{
+    submit && dispatch(validateOtp())
+  },[submit, dispatch])
   return (
     <>
     <div className='flex justify-center bg-slate-100 items-center h-screen'>
