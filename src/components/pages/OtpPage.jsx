@@ -4,7 +4,7 @@ import { validateOtp } from '../../loginSlice'
 import { useNavigate } from "react-router-dom";
 
 const OtpPage = () => {
-  const [timer, setTimer] = useState(5)
+  const [timer, setTimer] = useState(10)
   const [reset, setReset] = useState(false)
   const [firstNum, setfirstNum] = useState('')
   const [secondNum, setsecondNum] = useState('')
@@ -23,60 +23,58 @@ const OtpPage = () => {
      setsubmit(true)
    
     }
-    else{
-     // setsubmit(false)
-      setborder(false)
-    }
-    //console.log(firstNum)
-  },[firstNum, secondNum, thirdNum, fourthNum, dispatch,timer])
-
-  useEffect(()=>{
-    if(submit){
-     const interval = setInterval(()=>{
-       timer > 0 && setTimer(prevState => prevState - 1)
-      },1000)
-      timer === 0 && setReset(true)
-      console.log("RESET",reset)
-      console.log("SUBMIT",submit)
-      return () => clearInterval(interval)
-    }
-    // else if(){
-    //   setReset(true)
-    //   console.log("Timer", timer, "Reset", reset, "Submit", true)
-    //   //setTimer(0)
-    // }
-    // if(timer === 0){
-    //   console.log("0")
-    //   setReset(true)
+    // if(firstNum ==='' && secondNum ==='' && thirdNum ==='' && fourthNum ==='' ){
+    //   setReset(false)
     // }
     
-  },[submit, timer, reset])
+    //console.log(firstNum)
+  },[firstNum, secondNum, thirdNum, fourthNum, dispatch,timer, border, reset])
 
+  
+  
 
   useEffect(()=>{
     let number = [firstNum,secondNum, thirdNum, fourthNum]
     submit && dispatch(validateOtp([...number]))
-    setfirstNum('')
-    setsecondNum('')
-    setthirdNum('')
-    setfourthNum('')
-   // console.log(submit)
-  },[submit, dispatch])
+  
+  },[submit, dispatch, timer])
 
   useEffect(()=>{
-   result && navigate('/success')
+   
    if(result){
+    navigate('/success')
     setborder(false)
    }
-   else{
-    setborder(true)
-   }
-    //console.log("Result",result , "-" , "Border", border)
-    
-  },[result, border,navigate, submit])
+     else{
+      setsubmit(false)
+      setborder(true)
+       setfirstNum('')
+       setsecondNum('')
+       setthirdNum('') 
+       setfourthNum('')
+     }
+  
+   
+  },[result, submit, navigate])
   useEffect(()=>{
     setborder(false)
+     const interval = setInterval(()=>{
+       timer > 0 && setTimer(prevState => prevState - 1)
+      },1000)
+
+      return () => clearInterval(interval)
   },[])
+
+  
+  const resendHandler = () => {
+    setfirstNum('')
+    setsecondNum('')
+    setthirdNum('') 
+    setfourthNum('')
+   setTimer(10)
+   setborder(false)
+ 
+  }
   return (
     <>
     <div className='flex justify-center bg-slate-100 items-center h-screen'>
@@ -110,8 +108,14 @@ const OtpPage = () => {
     </div>
     <div>
       <p className='font-semibold text-sm text-slate-400'>
-        {submit ? (reset ? <span className='text-slate-600 cursor-pointer'>Resend OTP</span> :  
-        <span className='text-slate-400 pointer-events-none'>Resend OTP in {timer} secs</span>): "" } </p>
+        {/* {submit ? (reset ? <span className='text-slate-600 cursor-pointer' onClick={resendHandler}>Resend OTP</span> :  
+        <span className='text-slate-400 pointer-events-none'>Resend OTP in {timer} secs</span>): 
+        <span className='text-slate-400 pointer-events-none'>Resend OTP in {timer} secs</span> } */}
+        {/* { reset ? <span className='text-slate-600 cursor-pointer' onClick={resendHandler}>Resend OTP</span> :  
+       submit &&  <span className='text-slate-400 pointer-events-none'>Resend OTP in {timer} secs</span>} */}
+       {timer > 0 ? <span className='text-slate-400 pointer-events-none'>Resend OTP in {timer} secs</span> : 
+        <span className='text-slate-600 cursor-pointer' onClick={resendHandler}>Resend OTP</span> }
+      </p>
     </div>
    
   </form>
