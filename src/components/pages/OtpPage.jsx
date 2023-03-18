@@ -4,6 +4,8 @@ import { validateOtp } from '../../loginSlice'
 import { useNavigate } from "react-router-dom";
 
 const OtpPage = () => {
+  const [timer, setTimer] = useState(5)
+  const [reset, setReset] = useState(false)
   const [firstNum, setfirstNum] = useState('')
   const [secondNum, setsecondNum] = useState('')
   const [thirdNum, setthirdNum] = useState('')
@@ -19,17 +21,45 @@ const OtpPage = () => {
   useEffect(()=>{
     if(firstNum!=='' && secondNum!=='' && thirdNum!=='' && fourthNum!==''){
      setsubmit(true)
+   
     }
     else{
-      setsubmit(false)
+     // setsubmit(false)
       setborder(false)
     }
     //console.log(firstNum)
-  },[firstNum, secondNum, thirdNum, fourthNum, dispatch])
+  },[firstNum, secondNum, thirdNum, fourthNum, dispatch,timer])
+
+  useEffect(()=>{
+    if(submit){
+     const interval = setInterval(()=>{
+       timer > 0 && setTimer(prevState => prevState - 1)
+      },1000)
+      timer === 0 && setReset(true)
+      console.log("RESET",reset)
+      console.log("SUBMIT",submit)
+      return () => clearInterval(interval)
+    }
+    // else if(){
+    //   setReset(true)
+    //   console.log("Timer", timer, "Reset", reset, "Submit", true)
+    //   //setTimer(0)
+    // }
+    // if(timer === 0){
+    //   console.log("0")
+    //   setReset(true)
+    // }
+    
+  },[submit, timer, reset])
+
 
   useEffect(()=>{
     let number = [firstNum,secondNum, thirdNum, fourthNum]
     submit && dispatch(validateOtp([...number]))
+    setfirstNum('')
+    setsecondNum('')
+    setthirdNum('')
+    setfourthNum('')
    // console.log(submit)
   },[submit, dispatch])
 
@@ -41,7 +71,7 @@ const OtpPage = () => {
    else{
     setborder(true)
    }
-    console.log("Result",result , "-" , "Border", border)
+    //console.log("Result",result , "-" , "Border", border)
     
   },[result, border,navigate, submit])
   useEffect(()=>{
@@ -79,7 +109,9 @@ const OtpPage = () => {
        onChange={(e)=> setfourthNum(e.target.value)}/>
     </div>
     <div>
-      <p className='font-bold text-sm text-pink-600'>Resend OTP</p>
+      <p className='font-semibold text-sm text-slate-400'>
+        {submit ? (reset ? <span className='text-slate-600 cursor-pointer'>Resend OTP</span> :  
+        <span className='text-slate-400 pointer-events-none'>Resend OTP in {timer} secs</span>): "" } </p>
     </div>
    
   </form>
