@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { validateOtp } from '../../loginSlice'
 import { useNavigate } from "react-router-dom";
@@ -16,8 +16,11 @@ const OtpPage = () => {
   const result = useSelector(store => store.login.result)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const firstNumRef = useRef()
+  const secondNumRef = useRef()
+  const thirdNumRef  = useRef()
+  const fourthNumRef = useRef()
 
-  
   useEffect(()=>{
     if(firstNum!=='' && secondNum!=='' && thirdNum!=='' && fourthNum!==''){
      setsubmit(true)
@@ -94,20 +97,41 @@ const OtpPage = () => {
       <input type="text" className = {` focus:shadow-outline rounded-sm border-2 
       text-gray-500 leading-tight focus:outline-none focus:shadow-outline w-5  p-1 mr-2       
       ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`} 
-       value={firstNum}
-       onChange={(e)=> setfirstNum(e.target.value)}/>
+       value={firstNum} maxLength="1" ref={firstNumRef}
+       onChange={(e)=> {
+        setfirstNum(e.target.value) 
+        if (e.target.maxLength >= 1)
+        secondNumRef.current.focus();
+        console.log( secondNumRef)
+      }
+       }/>
        <input type="text" className = {` focus:shadow-outline rounded-sm border-2 
       text-gray-500 leading-tight focus:outline-none focus:shadow-outline w-5  p-1 mr-2       
-      ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`}  value={secondNum}
-       onChange={(e)=> setsecondNum(e.target.value)}/>
+      ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`}
+        value={secondNum} maxLength="1" ref={secondNumRef}
+       onChange={(e)=> {
+        setsecondNum(e.target.value)
+        if (e.target.maxLength >= 1)
+        thirdNumRef.current.focus();
+       }}/>
        <input type="text" className = {` focus:shadow-outline rounded-sm border-2 
       text-gray-500 leading-tight focus:outline-none focus:shadow-outline w-5  p-1 mr-2       
-      ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`}  value={thirdNum}
-       onChange={(e)=> setthirdNum(e.target.value)}/>
+      ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`}  
+      value={thirdNum} maxLength="1"  ref={thirdNumRef}
+       onChange={(e)=> {
+        setthirdNum(e.target.value)
+        if (e.target.maxLength >= 1)
+        fourthNumRef.current.focus();
+       }}/>
      <input type="text"className = {` focus:shadow-outline rounded-sm border-2 
       text-gray-500 leading-tight focus:outline-none focus:shadow-outline w-5  p-1 mr-2       
-      ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`}  value={fourthNum}
-       onChange={(e)=> setfourthNum(e.target.value)}/>
+      ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`} 
+       value={fourthNum} maxLength="1"  ref = {fourthNumRef}
+       onChange={(e)=>{
+        setfourthNum(e.target.value)
+        if (e.target.maxLength >= 1)
+        firstNumRef.current.focus();
+       }}/>
     </div>
     <div className='flex gap-6'>
       <p className='font-semibold text-sm text-slate-400'>
