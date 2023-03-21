@@ -8,10 +8,15 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import SuccessPage from './components/pages/SuccessPage';
+import Login from './components/pages/Login';
 
 const router = createBrowserRouter([
   {
     path: "/", 
+    element: <Login />,
+  },
+  {
+    path: "/otp", 
     element: <OtpPage />,
   },
   {
