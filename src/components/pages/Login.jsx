@@ -51,7 +51,7 @@ const Login = () => {
         text-gray-500 text-[0.865rem] items-center
       leading-tight focus:outline-none focus:shadow-outline placeholder:text-xs placeholder:ml-3    
       ${valid ? `px-16`  : `px-4`  } `}
-      value={text}
+      value={text} 
       onChange={(e)=>changeHandler(e)} 
       id="username" type="text" required />
      </div>

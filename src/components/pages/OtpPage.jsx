@@ -104,7 +104,7 @@ const OtpPage = () => {
         Verify with OTP
       </label> 
     </div>
-    <div className="mb-3">
+    <div className="mb-3"> 
       <input type="text" className = {`text-center focus:shadow-outline rounded-sm border-2 
       text-gray-500 leading-tight focus:outline-none focus:shadow-outline w-10 h-10 p-1 mr-2       
       ${result ? `border-slate-500`  : ( border ? `border-red-500`: `border-slate-500`)  }`} 

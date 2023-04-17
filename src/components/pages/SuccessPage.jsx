@@ -14,7 +14,7 @@ const SuccessPage = () => {
     // }
     console.log(Link) 
   }, []);
-  
+   
   // useEffect(()=>{
   //   navigate(".././otp");
   // },[navigate])
