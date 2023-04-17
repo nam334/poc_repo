@@ -102,7 +102,7 @@ const OtpPage = () => {
     <div className="">
       <label className="block text-blue-900 text-md font-semibold my-4" htmlFor="username">
         Verify with OTP
-      </label>
+      </label> 
     </div>
     <div className="mb-3">
       <input type="text" className = {`text-center focus:shadow-outline rounded-sm border-2 
